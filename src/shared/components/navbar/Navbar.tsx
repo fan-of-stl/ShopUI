@@ -148,7 +148,7 @@ const Navbar = () => {
                   open={Boolean(anchorEl)}
                   onClose={() => setAnchorEl(null)}
                 >
-                  <MenuItem disabled>{user.name}</MenuItem>
+                  <MenuItem onClick={()=>{navigate('/profile')}} >{user.name}</MenuItem>
                   <MenuItem onClick={handleLogout}>Logout</MenuItem>
                 </Menu>
               </>

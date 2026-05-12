@@ -11,6 +11,7 @@ import VerifyRegisterOtpPage from "../../features/auth/pages/VerifyRegisterOtpPa
 import VerifyForgotPasswordOtpPage from "../../features/auth/pages/VerifyForgotPasswordOtpPage";
 import ResetPasswordPage from "../../features/auth/pages/ResetPasswordPage";
 import SocialCreatePassword from "../../features/auth/pages/SocialCreatePassword";
+import ProfilePage from "../../features/profile/pages/ProfilePage";
 
 
 const AppRoutes = () => {
@@ -64,6 +65,15 @@ const AppRoutes = () => {
         element={
           <ProtectedRoute>
             <ShopPage/>
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/profile"
+        element={
+          <ProtectedRoute>
+            <ProfilePage/>
           </ProtectedRoute>
         }
       />
