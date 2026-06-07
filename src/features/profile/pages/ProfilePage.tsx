@@ -3,10 +3,14 @@ import {
   Card,
   CardContent,
   CircularProgress,
+  Stack,
   Typography,
 } from "@mui/material";
 
 import { useProfile } from "../hooks/useProfile";
+import { Add } from "@mui/icons-material";
+import AddressCard from "../../address/components/AddressCard";
+import ProfileAddressesPage from "../../address/pages/ProfileAddressesPage";
 
 const ProfilePage = () => {
 
@@ -39,18 +43,19 @@ const ProfilePage = () => {
   }
 
   return (
-    <Box
+    <Stack
       sx={{
         display: "flex",
         justifyContent: "center",
         mt: 5,
         px: 2,
+        gap: 4,
       }}
     >
       <Card
         sx={{
           width: "100%",
-          maxWidth: 500,
+          // maxWidth: 500,
           borderRadius: 4,
         }}
       >
@@ -83,7 +88,9 @@ const ProfilePage = () => {
 
         </CardContent>
       </Card>
-    </Box>
+
+      <ProfileAddressesPage />
+    </Stack>
   );
 };
 
