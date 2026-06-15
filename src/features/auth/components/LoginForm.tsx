@@ -18,6 +18,8 @@ import { useNavigate } from "react-router-dom";
 import { useLogin } from "../hooks/useLogin";
 import GoogleLoginPage from "../social-login/GoogleLoginPage";
 import { useAuthContext } from "../../../app/providers/AuthProvider";
+import { jwtDecode } from "jwt-decode";
+import type { JwtPayload } from "../types/authTypes";
 
 const LoginForm = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -37,10 +39,17 @@ const LoginForm = () => {
   mutate(data, {
     onSuccess: (res) => {      
       login(res.data.accessToken);
+      const decoded = jwtDecode<JwtPayload>(res.data.accessToken);
+       const isAdmin = decoded.roles?.includes("admin");
+      console.log({decoded});
+      if(decoded.roles?.includes('ADMIN')) {
+        return navigate("/admin", { replace: true });
+      }
       navigate("/", { replace: true });
     },
     });
 };
+
 
   return (
     <Box component="form" onSubmit={handleSubmit(onSubmit)}>
