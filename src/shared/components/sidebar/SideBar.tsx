@@ -13,106 +13,79 @@ import {
   Typography,
 } from "@mui/material";
 
-import MenuIcon from
-"@mui/icons-material/Menu";
+import MenuIcon from "@mui/icons-material/Menu";
 
-import Inventory2OutlinedIcon from
-"@mui/icons-material/Inventory2Outlined";
+import Inventory2OutlinedIcon from "@mui/icons-material/Inventory2Outlined";
 
-import CategoryOutlinedIcon from
-"@mui/icons-material/CategoryOutlined";
+import CategoryOutlinedIcon from "@mui/icons-material/CategoryOutlined";
 
-import BrandingWatermarkOutlinedIcon from
-"@mui/icons-material/BrandingWatermarkOutlined";
+import BrandingWatermarkOutlinedIcon from "@mui/icons-material/BrandingWatermarkOutlined";
 
-import PersonOutlineOutlinedIcon from
-"@mui/icons-material/PersonOutlineOutlined";
+import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined";
 
-import DashboardOutlinedIcon from
-"@mui/icons-material/DashboardOutlined";
+import DashboardOutlinedIcon from "@mui/icons-material/DashboardOutlined";
 
-import {
-  Outlet,
-  useNavigate,
-} from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 
-import {
-  useState,
-} from "react";
-
+import { useState } from "react";
+import { logoutApi } from "../../../features/auth/api/authApi";
+import { LogoutOutlined } from "@mui/icons-material";
+import { useLogout } from "../../../features/auth/hooks/useLogout";
 
 const drawerWidth = 240;
 
-
 const menuItems = [
-
   {
     label: "Dashboard",
-    icon:
-      <DashboardOutlinedIcon />,
+    icon: <DashboardOutlinedIcon />,
     path: "/admin",
   },
 
   {
     label: "Products",
-    icon:
-      <Inventory2OutlinedIcon />,
-    path:
-      "/admin/products",
+    icon: <Inventory2OutlinedIcon />,
+    path: "/admin/products",
   },
 
   {
     label: "Categories",
-    icon:
-      <CategoryOutlinedIcon />,
-    path:
-      "/admin/categories",
+    icon: <CategoryOutlinedIcon />,
+    path: "/admin/categories",
   },
 
   {
     label: "Brands",
-    icon:
-      <BrandingWatermarkOutlinedIcon />,
-    path:
-      "/admin/brands",
+    icon: <BrandingWatermarkOutlinedIcon />,
+    path: "/admin/brands",
   },
 
   {
     label: "Profile",
-    icon:
-      <PersonOutlineOutlinedIcon />,
-    path:
-      "/profile",
+    icon: <PersonOutlineOutlinedIcon />,
+    path: "/admin/profile",
   },
 ];
 
-
 const SideBar = () => {
+  const navigate = useNavigate();
 
-  const navigate =
-    useNavigate();
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const { mutate: logoutApi } = useLogout();
 
-  const [
-    mobileOpen,
-    setMobileOpen,
-  ] = useState(false);
+  const handleDrawerToggle = () => {
+    setMobileOpen(!mobileOpen);
+  };
 
-
-  const handleDrawerToggle =
-    () => {
-
-      setMobileOpen(
-        !mobileOpen
-      );
-    };
-
+   const handleLogout = () => {
+    logoutApi(undefined
+      , {
+      onSuccess: () => navigate("/login"),
+    });
+  };
 
   const drawer = (
-
     <>
-
       <Toolbar>
-
         <Typography
           variant="h6"
           sx={{
@@ -121,59 +94,29 @@ const SideBar = () => {
         >
           Admin Panel
         </Typography>
-
       </Toolbar>
 
       <Divider />
 
-
       <List>
+        {menuItems.map((item) => (
+          <ListItemButton key={item.label} onClick={() => navigate(item.path)}>
+            <ListItemIcon>{item.icon}</ListItemIcon>
 
-        {menuItems.map(
-          (item) => (
-
-            <ListItemButton
-
-              key={
-                item.label
-              }
-
-              onClick={() =>
-                navigate(
-                  item.path
-                )
-              }
-            >
-
-              <ListItemIcon>
-                {item.icon}
-              </ListItemIcon>
-
-              <ListItemText
-                primary={
-                  item.label
-                }
-              />
-
-            </ListItemButton>
-          )
-        )}
-
+            <ListItemText primary={item.label} />
+          </ListItemButton>
+        ))}
       </List>
     </>
   );
 
-
   return (
-
     <Box
       sx={{
         display: "flex",
       }}
     >
-
       <CssBaseline />
-
 
       {/* ====================== */}
       {/* APPBAR */}
@@ -183,25 +126,19 @@ const SideBar = () => {
         position="fixed"
         sx={{
           width: {
-            sm:
-              `calc(100% - ${drawerWidth}px)`,
+            sm: `calc(100% - ${drawerWidth}px)`,
           },
 
           ml: {
-            sm:
-              `${drawerWidth}px`,
+            sm: `${drawerWidth}px`,
           },
         }}
       >
-
         <Toolbar>
-
           <IconButton
             color="inherit"
             edge="start"
-            onClick={
-              handleDrawerToggle
-            }
+            onClick={handleDrawerToggle}
             sx={{
               mr: 2,
               display: {
@@ -209,21 +146,19 @@ const SideBar = () => {
               },
             }}
           >
-
             <MenuIcon />
-
           </IconButton>
 
-          <Typography
-            variant="h6"
-            noWrap
-          >
+          <Typography variant="h6" noWrap>
             Admin Dashboard
           </Typography>
 
+
+          <IconButton onClick={handleLogout} color="inherit" title="Logout">
+          <LogoutOutlined />
+          </IconButton>
         </Toolbar>
       </AppBar>
-
 
       {/* ====================== */}
       {/* SIDEBAR */}
@@ -241,15 +176,12 @@ const SideBar = () => {
           },
         }}
       >
-
         {/* MOBILE */}
 
         <Drawer
           variant="temporary"
           open={mobileOpen}
-          onClose={
-            handleDrawerToggle
-          }
+          onClose={handleDrawerToggle}
           ModalProps={{
             keepMounted: true,
           }}
@@ -259,19 +191,15 @@ const SideBar = () => {
               sm: "none",
             },
 
-            "& .MuiDrawer-paper":
-              {
-                boxSizing:
-                  "border-box",
+            "& .MuiDrawer-paper": {
+              boxSizing: "border-box",
 
-                width:
-                  drawerWidth,
-              },
+              width: drawerWidth,
+            },
           }}
         >
           {drawer}
         </Drawer>
-
 
         {/* DESKTOP */}
 
@@ -283,22 +211,17 @@ const SideBar = () => {
               sm: "block",
             },
 
-            "& .MuiDrawer-paper":
-              {
-                boxSizing:
-                  "border-box",
+            "& .MuiDrawer-paper": {
+              boxSizing: "border-box",
 
-                width:
-                  drawerWidth,
-              },
+              width: drawerWidth,
+            },
           }}
           open
         >
           {drawer}
         </Drawer>
-
       </Box>
-
 
       {/* ====================== */}
       {/* PAGE CONTENT */}
@@ -310,18 +233,13 @@ const SideBar = () => {
           flexGrow: 1,
           p: 3,
           width: {
-            sm:
-              `calc(100% - ${drawerWidth}px)`,
+            sm: `calc(100% - ${drawerWidth}px)`,
           },
         }}
       >
-
         <Toolbar />
 
-        <Outlet />
-
       </Box>
-
     </Box>
   );
 };
